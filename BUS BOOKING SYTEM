@@ -1,0 +1,261 @@
+#include<stdio.h>
+#include<conio.h>
+#include<stdlib.h>
+#include<string.h>
+
+
+typedef struct{
+	char name[50];
+	int bus_num;
+	int num_of_seats;
+}pd;
+
+
+
+
+
+void reservation(void);
+void viewdetails(void);
+void busseats(void);
+void printticket(char name[],int,int,float);
+void specificbus(int);
+float charge(int,int);
+
+
+
+int main()
+{
+{
+    char username[20];
+    char password[20];
+    printf("Enter username: ");
+    scanf("%s", username);
+    printf("Enter password: ");
+    scanf("%s", password);
+    if (strcmp(username, "BRYCE") == 0 && strcmp(password, "BRYCE254") == 0)
+    {
+        printf("Login successful!\n");
+    }
+    else
+    {
+        printf("Login failed!\n");
+    }
+    
+}
+	
+	
+		 system("cls");
+	printf("\t\t|           BUS TICKET RERSERVATION  AND BOOKING SYSTEM  |\n");
+    printf("\t\t|                            By IAN BRYSON KIPCHIRCHIR   |\n");
+    printf("\t\t|                            LEGEND.A4EAC.2023        |\n");
+    printf("\t\t------------------------------------------------------\n");
+    printf("\t\t---------------press any key to continue--------------\n");
+    printf("\t\t------------------------------------------------------\n");
+	getch();
+    system("cls");
+	int menu_choice,choice_return;
+	
+	system("cls");
+	printf("\n=================================\n");
+	printf("    BUS BOOKING SYSTEM");
+	printf("\n=================================");
+	printf("\n1>> Book A Ticket");
+	printf("\n------------------------");
+	printf("\n2>> View All Available Bus");
+	printf("\n------------------------");
+	printf("\n3>> View All  busseats");
+	printf("\n------------------------");
+	printf("\n4>> Exit");
+	printf("\n------------------------");
+	printf("\n\n-->");
+	scanf("%d",&menu_choice);
+	switch(menu_choice)
+	{
+		case 1:
+			reservation();
+			break;
+		case 2:
+			viewdetails();
+			printf("\n\nPress any key to go to Main Menu..");
+			getch();
+			break;
+		case 3:
+			busseats();
+			printf("\n\nPress any key to go to Main Menu..");
+			getch();
+			break;
+         case 4:
+			return(0);
+		default:
+			printf("\nInvalid choice");
+	}
+	
+	return(0);
+}
+
+void viewdetails(void)
+{
+	system("cls");
+	printf("\nBUS.No\tBUS Name\tDestinations\t\t\t\tFare\t\tTime\n");
+	printf("\n533101\tBus A     \tNairobi  to  Nakuru\t\t      ksh.600\t\t9am");
+	printf("\n533102\tBus B     \tNakuru   to  Eldoret\t\t      ksh.500\t\t12pm");
+	printf("\n533103\tBus C     \tNairobi  to  Kericho\t\t      ksh.700\t\t8am");
+	printf("\n533104\tBus D     \tKericho  to  Kisii\t\t      ksh.300\t\t11am");
+	printf("\n533105\tBus E     \tKisii    to  Kisumu\t\t      ksh.400\t\t7am");
+}
+void busseats(void)
+{
+    system("cls");
+	printf("\n\t\t\t\tSeat.No\t\t\t\t\t\t\t\t\n");
+	printf("\n1A-1B____DRIVER\n");
+	printf("\n2A-2B____3C-3D\n");
+	printf("\nDOOR ____4C-4D\n");
+	printf("\n5A-5B____6C-6D\n");
+	printf("\n7A-7B____8C-8D\n");
+	printf("\n9A-9B____10C-10D\n");
+	printf("\n11A-11B____12C-12D\n");
+	printf("\n13A-13B____14C-14D\n");
+	printf("\n15A-15B____16C-16D\n");
+	printf("\n17A-17B-18C-18D-18E\n");
+}
+
+
+void reservation(void)
+{
+	char confirm;
+	int i=0;
+	float charges;
+	pd passdetails;
+	FILE *fp;
+	fp=fopen("seats_reserved.txt","a");
+	system("cls");
+
+	printf("\nEnter Your Name:> ");
+	fflush(stdin);
+	gets(passdetails.name);
+	printf("\n\n>>Press Enter To View Available Busseats<< ");
+	getch();
+	system("cls");
+	busseats();
+	printf("\nEnter Number of seat:> ");
+	scanf("%d%s",&passdetails.num_of_seats);
+	printf("\n\n>>Press Enter To View Available Bus<< ");
+	getch();
+	system("cls");
+	viewdetails();
+	printf("\n\nEnter bus number:> ");
+	
+	start1:
+	scanf("%d",&passdetails.bus_num);
+	if(passdetails.bus_num>=533101 && passdetails.bus_num<=533105)
+	{
+		charges=charge(passdetails.bus_num,passdetails.num_of_seats);
+		printticket(passdetails.name,passdetails.num_of_seats,passdetails.bus_num,charges);
+	}
+	else
+	{
+		printf("\nInvalid bus Number! Enter again--> ");
+		
+	}
+
+	printf("\n\nConfirm Ticket (y/n):>");
+	
+	
+	scanf(" %c",&confirm);
+	if(confirm == 'y')
+	{
+		fprintf(fp,"%s\t\t%d\t\t%d\t\t%.2f\n",&passdetails.name,passdetails.num_of_seats,passdetails.bus_num,charges);
+		printf("==================");
+		printf("\n Reservation successful\n");
+		printf("==================");
+		printf("\nPress any key to go back to Main menu");
+	}
+	else
+	{
+		if(confirm=='n'){
+			printf("\nReservation Not Done!\nPress any key to go back to  Main menu!");
+		}
+		else
+		{
+			printf("\nInvalid choice entered! Enter again-----> ");
+			
+		}
+	}
+	fclose(fp);
+	getch();
+}
+
+float charge(int bus_num,int num_of_seats)
+{
+		if (bus_num==533101)
+	{
+		return(600.0*num_of_seats);
+	}
+	if (bus_num==533102)
+	{
+		return(500.0*num_of_seats);
+	}
+	if (bus_num==533103)
+	{
+		return(700.0*num_of_seats);
+	}
+	if (bus_num==533104)
+	{
+		return(300.0*num_of_seats);
+	}
+	if (bus_num==533105)
+    {
+     return(400.0*num_of_seats);
+    }
+}
+
+void printticket(char name[],int num_of_seats,int bus_num,float charges)
+{
+	system("cls");
+	printf("-------------------\n");
+	printf("\tTICKET\n");
+	printf("-------------------\n\n");
+	printf("Name:\t\t\t%s",name);
+	printf("\nNumber Of Seats:\t%d",num_of_seats);
+	printf("\nBus Number:\t\t%d",bus_num);
+	specificbus(bus_num);
+	printf("\nCharges:\t\t%.2f",charges);
+}
+
+void specificbus(int bus_num)
+{
+
+	if (bus_num==533101)
+	{
+		printf("\nBus:\t\t\tBUS A");
+		printf("\nDestination:\t\tNairobi to Nakuru");
+		printf("\nDeparture:\t\t9am ");
+	}
+	if (bus_num==533102)
+	{
+		printf("\nBus:\t\t\tBUS B");
+		printf("\nDestination:\t\tNakuru to Eldoret");
+		printf("\nDeparture:\t\t12pm");
+	}
+	if (bus_num==533103)
+	{
+		printf("\nBus:\t\t\tBUS C");
+		printf("\nDestination:\t\tNairobi to Kericho");
+		printf("\nDeparture:\t\t8am");
+	}
+	if (bus_num==533104)
+	{
+		printf("\nBus:\t\t\tBUS D");
+		printf("\nDestination:\t\tKericho to Kisii");
+		printf("\nDeparture:\t\t11am ");
+	}
+	if (bus_num==533105)
+    {
+        printf("\nBus:\t\t\tBUS C");
+        printf("\nDestination:\t\tKisii to Kisumu");
+        printf("\nDeparture:\t\t7am");
+    }
+
+}
+
+
